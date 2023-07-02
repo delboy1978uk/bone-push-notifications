@@ -11,12 +11,11 @@ use Bone\Http\Middleware\HalCollection;
 use Bone\Http\Middleware\JsonParse;
 use Bone\Notification\PushToken\Controller\ApiController;
 use Bone\Notification\PushToken\Service\PushNotificationService;
+use Bone\OAuth2\Http\Middleware\ResourceServerMiddleware;
 use Bone\Router\Router;
 use Bone\Router\RouterConfigInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Laminas\Diactoros\ResponseFactory;
-use League\OAuth2\Server\Middleware\AuthorizationServerMiddleware;
 use League\Route\RouteGroup;
 use League\Route\Strategy\JsonStrategy;
 
@@ -47,7 +46,7 @@ class PushNotificationPackage implements RegistrationInterface, RouterConfigInte
 
     public function addRoutes(Container $c, Router $router): Router
     {
-        $auth = $c->get(AuthorizationServerMiddleware::class);
+        $auth = $c->get(ResourceServerMiddleware::class);
         $factory = new ResponseFactory();
         $strategy = new JsonStrategy($factory);
         $strategy->setContainer($c);
