@@ -7,6 +7,7 @@ namespace Bone\Notification\PushToken\Service;
 use Bone\Notification\PushToken\Entity\PushToken;
 use Bone\Notification\PushToken\Repository\PushTokenRepository;
 use DateTime;
+use Del\Entity\User;
 use Doctrine\ORM\EntityManager;
 
 class PushNotificationService
@@ -22,59 +23,13 @@ class PushNotificationService
         $this->em = $em;
     }
 
-    /**
-     * @param array $data
-     * @return PushToken
-     */
-    public function createFromArray(array $data): PushToken
+    public function registerPushToken(User $user, string $token): void
     {
-        $pushToken = new PushToken();
 
-        return $this->updateFromArray($pushToken, $data);
     }
 
-    /**
-     * @param PushToken $pushToken
-     * @param array $data
-     * @return PushToken
-     */
-    public function updateFromArray(PushToken $pushToken, array $data): PushToken
+    public function sendNotification(string $token, string $message, array $data = []): void
     {
-        isset($data['id']) ? $pushToken->setId($data['id']) : null;
-        isset($data['token']) ? $pushToken->setToken($data['token']) : $pushToken->setToken('');
-
-        return $pushToken;
-    }
-
-    /**
-     * @param PushToken $pushToken
-     * @return PushToken
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function savePushToken(PushToken $pushToken): PushToken
-    {
-        return $this->getRepository()->save($pushToken);
-    }
-
-    /**
-     * @param PushToken $pushToken
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function deletePushToken(PushToken $pushToken): void
-    {
-        $this->getRepository()->delete($pushToken);
-    }
-
-    /**
-     * @return PushTokenRepository
-     */
-    public function getRepository(): PushTokenRepository
-    {
-        /** @var PushTokenRepository $repository */
-        $repository = $this->em->getRepository(PushToken::class);
-
-        return $repository;
+        $this->em->getRepository(PushToken::class)->findOneBy(['token' => $token]);
     }
 }

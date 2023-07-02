@@ -4,43 +4,32 @@ declare(strict_types=1);
 
 namespace Bone\Notification\PushToken\Entity;
 
+use Bone\BoneDoctrine\Traits\HasCreatedAtDate;
+use Bone\BoneDoctrine\Traits\HasId;
+use Bone\BoneDoctrine\Traits\HasUpdatedAtDate;
+use Del\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 /**
- * @ORM\Entity(repositoryClass="\Bone\Notification\PushToken\Repository\PushTokenRepository")
+ * @ORM\Entity
  */
 class PushToken implements JsonSerializable
 {
-    /**
-     * @var int $id
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use HasCreatedAtDate;
+    use HasId;
+    use HasUpdatedAtDate;
 
     /**
      * @var string $token
      * @ORM\Column(type="string", length=50, nullable=false)
      */
-    private $token;
+    private string $token = '';
 
     /**
-     * @return int
+     * @ORM\ManyToOne(targetEntity="Del\Entity\User")
      */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
+    private User $user;
 
     /**
      * @return string
@@ -64,8 +53,8 @@ class PushToken implements JsonSerializable
     public function toArray(): array
     {
         $data = [
-            'id' => $this->getId(),
             'token' => $this->getToken(),
+            'user' => $this->user->getId(),
         ];
 
         return $data;
@@ -85,5 +74,21 @@ class PushToken implements JsonSerializable
     public function __toString(): string
     {
         return $this->jsonSerialize();
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }
