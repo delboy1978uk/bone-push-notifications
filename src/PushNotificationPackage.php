@@ -52,7 +52,7 @@ class PushNotificationPackage implements RegistrationInterface, RouterConfigInte
         $strategy->setContainer($c);
 
         $router->group('/api/notifications', function (RouteGroup $route) {
-            $route->map('POST', '/register-token', [ApiController::class, 'register'])->prependMiddleware(new HalCollection(5));
+            $route->map('POST', '/register-token', [ApiController::class, 'register']);
             $route->map('POST', '/send-notification', [ApiController::class, 'send']);
         })
         ->middlewares([$auth, new JsonParse()])
