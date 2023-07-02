@@ -1,6 +1,6 @@
 {
     "name": "delboy1978uk\/bone-push-notifications",
-    "description": "Push Notificatins using Expo for Bone Native apps",
+    "description": "Push Notifications using Expo for Bone Native apps",
     "type": "package",
     "license": "MIT",
     "authors": [
@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "delboy1978uk/bone": "^3.9",
+        "php": "^8.1",
+        "ext-json": "*",
+        "delboy1978uk/bone-oauth2": "^1.5"
     },
     "require-dev": {
         "roave\/security-advisories": "dev-latest"

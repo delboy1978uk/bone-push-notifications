@@ -9,7 +9,7 @@ use Bone\Notification\PushToken\Repository\PushTokenRepository;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 
-class PushTokenService
+class PushNotificationService
 {
     /** @var EntityManager $em */
     private $em;

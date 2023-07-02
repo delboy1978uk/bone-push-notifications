@@ -9,37 +9,33 @@ use Barnacle\EntityRegistrationInterface;
 use Barnacle\RegistrationInterface;
 use Bone\Http\Middleware\HalCollection;
 use Bone\Notification\PushToken\Controller\ApiController;
-use Bone\Notification\PushToken\Service\PushTokenService;
+use Bone\Notification\PushToken\Service\PushNotificationService;
 use Bone\Router\Router;
 use Bone\Router\RouterConfigInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Laminas\Diactoros\ResponseFactory;
 use League\Route\RouteGroup;
 use League\Route\Strategy\JsonStrategy;
 
-class PushTokenPackage implements RegistrationInterface, RouterConfigInterface, EntityRegistrationInterface
+class PushNotificationPackage implements RegistrationInterface, RouterConfigInterface, EntityRegistrationInterface
 {
     /**
      * @param Container $c
      */
     public function addToContainer(Container $c)
     {
-        $c[PushTokenService::class] = $c->factory(function (Container $c) {
-            $em =  $c->get(EntityManager::class);
+        $c[PushNotificationService::class] = $c->factory(function (Container $c) {
+            $em =  $c->get(EntityManagerInterface::class);
 
-            return new PushTokenService($em);
+            return new PushNotificationService($em);
         });
 
-        $c[PushTokenApiController::class] = $c->factory(function (Container $c) {
-            $service = $c->get(PushTokenService::class);
+        $c[ApiController::class] = $c->factory(function (Container $c) {
+            $service = $c->get(PushNotificationService::class);
 
             return new ApiController($service);
         });
-    }
-
-    public function addViewExtensions(Container $c): array
-    {
-        return [];
     }
 
     public function getEntityPath(): string

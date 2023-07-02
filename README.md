@@ -1,23 +1,25 @@
-# pushtoken
-PushToken package for Bone Mvc Framework
+# bone-push-notifications
+Push Notifications using Expo for Bone Native apps
 ## installation
 Use Composer
 ```
-composer require delboy1978uk/bone-notifications
+composer require delboy1978uk/bone-push-notifications
 ```
-## usage
-Simply add to the `config/packages.php`
+## configuration
+Enable the package in `config/packages.php`, and generate and run migrations.
 ```php
 <?php
 
 // use statements here
-use Bone\Notification\PushToken\PushTokenPackage;
+use Bone\Notification\PushToken\PushNotificationPackage;
 
 return [
     'packages' => [
         // packages here...,
-        PushTokenPackage::class,
+        PushNotificationPackage::class,
     ],
     // ...
 ];
 ```
+## usage
+In a Bone Native app, call the API endpoints.
