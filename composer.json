@@ -1,0 +1,23 @@
+{
+    "name": "delboy1978uk\/bone-push-notifications",
+    "description": "Push Notificatins using Expo for Bone Native apps",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Derek Stephen McLean",
+            "email": "delboy1978uk@gmail.com"
+        }
+    ],
+    "require": {
+        "delboy1978uk/bone": "^3.9",
+    },
+    "require-dev": {
+        "roave\/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bone\\Notification\\PushToken\\": "src\/"
+        }
+    }
+}
