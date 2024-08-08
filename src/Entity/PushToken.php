@@ -9,7 +9,9 @@ use Bone\BoneDoctrine\Traits\HasId;
 use Bone\BoneDoctrine\Traits\HasUpdatedAtDate;
 use Del\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use JsonException;
 use JsonSerializable;
+use function json_encode;
 
 #[ORM\Entity]
 class PushToken implements JsonSerializable
@@ -36,22 +38,23 @@ class PushToken implements JsonSerializable
 
     public function toArray(): array
     {
-        $data = [
+        return [
             'token' => $this->getToken(),
             'user' => $this->user->getId(),
         ];
-
-        return $data;
     }
 
-    public function jsonSerialize(): string
+    public function jsonSerialize(): array
     {
-        return \json_encode($this->toArray());
+        return $this->toArray();
     }
 
+    /**
+     * @throws JsonException
+     */
     public function __toString(): string
     {
-        return $this->jsonSerialize();
+        return json_encode($this->jsonSerialize(), JSON_THROW_ON_ERROR);
     }
 
     public function getUser(): User
