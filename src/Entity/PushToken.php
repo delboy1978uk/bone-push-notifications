@@ -11,45 +11,29 @@ use Del\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class PushToken implements JsonSerializable
 {
     use HasCreatedAtDate;
     use HasId;
     use HasUpdatedAtDate;
 
-    /**
-     * @var string $token
-     * @ORM\Column(type="string", length=50, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 50, nullable: false)]
     private string $token = '';
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Del\Entity\User")
-     */
+    #[ORM\OneToOne(targetEntity: 'Del\Entity\User')]
     private User $user;
 
-    /**
-     * @return string
-     */
     public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * @param string $token
-     */
     public function setToken(string $token): void
     {
         $this->token = $token;
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         $data = [
@@ -60,33 +44,21 @@ class PushToken implements JsonSerializable
         return $data;
     }
 
-    /**
-     * @return string
-     */
     public function jsonSerialize(): string
     {
         return \json_encode($this->toArray());
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->jsonSerialize();
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User
     {
         return $this->user;
     }
 
-    /**
-     * @param User $user
-     */
     public function setUser(User $user): void
     {
         $this->user = $user;
