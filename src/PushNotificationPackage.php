@@ -33,9 +33,10 @@ class PushNotificationPackage implements RegistrationInterface, RouterConfigInte
         });
 
         $c[ApiController::class] = $c->factory(function (Container $c) {
+            $settings = $c->has('bone-native') ? $c->get('bone-native') : [];
             $service = $c->get(PushNotificationService::class);
 
-            return new ApiController($service);
+            return new ApiController($service, $settings);
         });
     }
 
@@ -50,6 +51,8 @@ class PushNotificationPackage implements RegistrationInterface, RouterConfigInte
         $factory = new ResponseFactory();
         $strategy = new JsonStrategy($factory);
         $strategy->setContainer($c);
+        $router->map('/.well-known/apple-app-site-association', ApiController::class, 'wellKnownAppleApp');
+        $router->map('/.well-known/android-app-site-association', ApiController::class, 'wellKnownAndroidApp');
 
         $router->group('/api/notifications', function (RouteGroup $route) {
             $route->map('POST', '/register-token', [ApiController::class, 'register']);
