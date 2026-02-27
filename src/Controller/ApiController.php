@@ -72,12 +72,12 @@ class ApiController
 
     public function wellKnownAppleApp(ServerRequestInterface $request): ResponseInterface
     {
-        return new JsonResponse(['iOS']);
+        return new JsonResponse($this->getWellKnownData('iOS'));
     }
 
     public function wellKnownAndroidApp(ServerRequestInterface $request): ResponseInterface
     {
-        return new JsonResponse(['Android']);
+        return new JsonResponse($this->getWellKnownData('android'));
     }
 
     private function getWellKnownData(string $platform): array
